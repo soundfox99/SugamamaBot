@@ -1,4 +1,4 @@
-Title: SugamamaBot  Author: TDXPQ (Aditya Jindal)
+Title: Sugamama(Bot)  Author: TDXPQ (Aditya Jindal)
 
 Sugamam(Bot) is a custom discord bot made for the HAIKYUU in COLOR!! discord server.
 Primary functions are changing a voice channel so the name of the channel serves the purpose of the clock.
