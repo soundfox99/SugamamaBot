@@ -6,7 +6,8 @@ import sys      #So we can import custom python folders from other folders
 sys.path.insert(1, '../Tokens/')
 
 #Import custom python files
-from TokenVariables import token
+from TokenVariables import real_token, testing_token
+from BotFunctions import get_picture_path
 #Import external libraries
 import discord
 from discord.ext import commands, tasks
@@ -18,7 +19,13 @@ import pytz
 import time
 
 #Define hard coded variables
-TOKEN = token
+testing = True
+
+if testing:
+    TOKEN = testing_token
+else:
+    TOKEN = real_token
+
 client = commands.Bot(command_prefix = '~')
 
 
@@ -42,8 +49,24 @@ async def ping(ctx):
     await ctx.send(f'Nice Receive {round(client.latency * 1000)}ms')
 
 
+@client.command(aliases=['randpage'], pass_content = True)
+async def get_picture(ctx):
+    path = str(get_picture_path())      # Get a path to a random page picture.
+
+    # Get the name of the file from the returned path, returns all the characters after the last slash.
+    for i in range(0, len(path)):
+        if path[i] == '\\':
+            last_slash = i
+
+    name = path[(last_slash+1):]
+
+    # Send designated file to discord channel
+    file = discord.File(path, filename=name)
+    await ctx.channel.send(name, file=file)
+
+
 #Define background tasks
-@tasks.loop(minutes=10.0)
+@tasks.loop(minutes=20.0)
 async def time_change(zone, channel_id):
     tz = pytz.timezone(zone)        #Converts the users time zone preference into a variable usefull for the pytz library.
 
